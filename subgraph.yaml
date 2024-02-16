@@ -1,0 +1,57 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Contract
+    network: sepolia
+    source:
+      address: "0xc03dFB2E43c8dE85a0903ace6aF3dE63433bc1F5"
+      abi: Contract
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - ConsecutiveTransfer
+        - NFT_AddedPendingBidsForWithdrawal
+        - NFT_AuctionTimeUpdated
+        - NFT_BidAccepted
+        - NFT_BidPlaced
+        - NFT_Minted
+        - NFT_PendingBidsWithdrawal
+        - NFT_SetTokenURI
+        - NFT_WithdrawCompleted
+        - Transfer
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: ConsecutiveTransfer(indexed uint256,uint256,indexed address,indexed address)
+          handler: handleConsecutiveTransfer
+        - event: NFT_AddedPendingBidsForWithdrawal(indexed uint256,indexed address)
+          handler: handleNFT_AddedPendingBidsForWithdrawal
+        - event: NFT_AuctionTimeUpdated(indexed uint256,indexed uint256)
+          handler: handleNFT_AuctionTimeUpdated
+        - event: NFT_BidAccepted(indexed uint256)
+          handler: handleNFT_BidAccepted
+        - event: NFT_BidPlaced(indexed uint256,indexed address,indexed uint256)
+          handler: handleNFT_BidPlaced
+        - event: NFT_Minted(indexed address,indexed uint256,indexed uint256)
+          handler: handleNFT_Minted
+        - event: NFT_PendingBidsWithdrawal(indexed uint256,indexed address,indexed bool)
+          handler: handleNFT_PendingBidsWithdrawal
+        - event: NFT_SetTokenURI(string,indexed uint256)
+          handler: handleNFT_SetTokenURI
+        - event: NFT_WithdrawCompleted(indexed uint256,indexed bool,indexed uint256)
+          handler: handleNFT_WithdrawCompleted
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/contract.ts
